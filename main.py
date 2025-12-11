@@ -1,5 +1,9 @@
 import re
 import os
+import logging
+
+# Suppress INFO-level logs from MCP to prevent misleading "error" level logs in cloud environments
+logging.getLogger("mcp").setLevel(logging.WARNING)
 
 from mcp.server.fastmcp import FastMCP
 from mcp.server.auth.settings import AuthSettings
@@ -125,4 +129,5 @@ def fetch_instructions(prompt_name: str) -> str:
         return f.read()
 
 if __name__ == "__main__":
-    mcp.run(transport='streamable-http')
+    # Use 'sse' transport for ChatGPT MCP connector compatibility
+    mcp.run(transport='sse')
