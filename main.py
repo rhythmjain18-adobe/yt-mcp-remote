@@ -5,8 +5,8 @@ import logging
 # Suppress INFO-level logs from MCP to prevent misleading "error" level logs in cloud environments
 logging.getLogger("mcp").setLevel(logging.WARNING)
 
-from mcp.server.fastmcp import FastMCP
-from mcp.server.auth.settings import AuthSettings
+from fastmcp import FastMCP
+from fastmcp.server.auth import AuthSettings
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.proxies import GenericProxyConfig
 from pydantic import AnyHttpUrl
@@ -47,7 +47,7 @@ mcp = FastMCP(
     ),
 )
 
-@mcp.tool()
+@mcp.tool
 def fetch_video_transcript(url: str) -> str:
     """
     Extract transcript with timestamps from a YouTube video URL and format it for LLM consumption
@@ -108,7 +108,7 @@ def fetch_video_transcript(url: str) -> str:
     except Exception as e:
         raise Exception(f"Error fetching transcript with proxy: {str(e)}")
 
-@mcp.tool()
+@mcp.tool
 def fetch_instructions(prompt_name: str) -> str:
     """
     Fetch instructions for a given prompt name from the prompts/ directory
