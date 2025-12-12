@@ -43,7 +43,7 @@ mcp = FastMCP(
     auth=AuthSettings(
         issuer_url=AnyHttpUrl(f"https://{auth0_domain}/"),
         resource_server_url=AnyHttpUrl(resource_server_url),
-        required_scopes=["openid", "profile", "email", "address", "phone"],
+        required_scopes=["openid", "profile", "email", "address", "phone", "offline_access"],
     ),
 )
 
@@ -129,5 +129,4 @@ def fetch_instructions(prompt_name: str) -> str:
         return f.read()
 
 if __name__ == "__main__":
-    # Use 'sse' transport for ChatGPT MCP connector compatibility
-    mcp.run(transport='sse')
+    mcp.run(transport='streamable-http')
